@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ne"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ANUGRAHA estimate</title>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0a4d46"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<style>
+:root{--bg:#faf6ef;--c:#fff;--t:#10302d;--b:#0f6b62;--b2:#0a4d46;--ln:#d9d2c3;--mu:#55655f;--er:#b3261e;--on:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1a19;--c:#162826;--t:#e9f2f0;--b:#3cb8aa;--b2:#0a4d46;--ln:#2e4744;--mu:#9bb3af;--er:#ff8a80;--on:#06211e}}
+:root[data-theme="dark"]{--bg:#0e1a19;--c:#162826;--t:#e9f2f0;--b:#3cb8aa;--b2:#0a4d46;--ln:#2e4744;--mu:#9bb3af;--er:#ff8a80;--on:#06211e}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--t);font:17px/1.5 "Noto Sans Devanagari",Mukta,system-ui,sans-serif;padding-bottom:120px;overflow-x:hidden}
+header{background:var(--b2);color:#fff;padding:12px 16px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;justify-content:space-between;align-items:center;gap:8px}
+header h1{margin:0;font-size:22px;letter-spacing:.5px}header small{display:block;font-size:14px;opacity:.85}
+header button{background:transparent;color:#fff;border-color:#ffffff88}
+main{max-width:760px;margin:auto;padding:8px 12px}
+.card{background:var(--c);border:1px solid var(--ln);border-radius:14px;padding:14px;margin:12px 0}
+.card.s{border-radius:10px;margin:10px 0;background:var(--bg)}
+h2{font-size:22px;margin:8px 0}h3{font-size:19px;margin:12px 0 4px}
+label{display:block;font-size:15px;color:var(--mu);font-weight:600;min-width:0}
+input,select{width:100%;min-height:52px;font:inherit;font-size:22px;color:var(--t);background:var(--c);border:1.5px solid var(--ln);border-radius:10px;padding:6px 10px;margin-top:2px}
+select{font-size:17px}input.t{font-size:17px}
+input:focus,select:focus,button:focus-visible{outline:3px solid var(--b);outline-offset:1px}
+.bad{border-color:var(--er)!important;outline:2px solid var(--er)}
+.g2,.g3{display:grid;gap:10px;margin:8px 0}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+button{min-height:48px;font:inherit;font-size:16px;font-weight:600;border-radius:12px;border:1.5px solid var(--b);background:var(--c);color:var(--b);padding:0 14px;cursor:pointer}
+button.p{background:var(--b);color:var(--on)}button.d{border-color:var(--er);color:var(--er)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}.row>*{flex:1 1 auto}
+.n{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;text-align:center;margin:8px 0}
+.n div{background:var(--bg);border-radius:10px;padding:6px 2px;font-size:13px;color:var(--mu)}.n b{display:block;font-size:18px;color:var(--t)}
+.mu{color:var(--mu);font-size:15px}.err{color:var(--er);font-size:15px;font-weight:600}
+.tot{font-size:20px;font-weight:700;color:var(--b)}
+summary{min-height:48px;display:flex;align-items:center;font-weight:700;cursor:pointer}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{border-bottom:1px solid var(--ln);padding:6px 4px;text-align:left;vertical-align:top}td.r,th.r{text-align:right}
+.tw{overflow-x:auto}
+#dock{position:fixed;left:0;right:0;bottom:0;background:var(--b2);color:#fff;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;align-items:center;gap:10px;z-index:6}
+#dock b{font-size:22px}#dock small{display:block;font-size:13px;opacity:.85}#dock button{background:#fff;color:var(--b2);border-color:#fff}
+dialog{width:min(720px,96vw);max-height:92vh;border:1px solid var(--ln);border-radius:14px;background:var(--bg);color:var(--t);padding:14px}
+dialog::backdrop{background:#0008}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:var(--t);color:var(--bg);padding:10px 16px;border-radius:12px;z-index:9;display:none;max-width:90vw;text-align:center;font-size:16px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{#app,#dock,header,#toast,.np{display:none!important}body{background:#fff;color:#000;padding:0}dialog{position:static;border:0;width:auto;max-height:none;overflow:visible;color:#000;background:#fff}dialog:not([open]){display:none}table{page-break-inside:auto}tr{page-break-inside:avoid}}
+</style></head><body>
+<header><div><h1>ANUGRAHA estimate</h1><small>घर रंगरोगन quotation calculator</small></div><div class="row" style="flex:0 0 auto"><button data-a="hist" aria-label="Saved quotation history">इतिहास</button><button data-a="rates">दर</button></div></header>
+<main id="app"></main>
+<div id="dock"><div><small>सुझाव गरिएको quotation (अनुमान)</small><b data-o="sug"></b></div><button data-a="pdf">PDF</button></div>
+<dialog id="dl"></dialog><div id="toast" role="status"></div>
+<script>
+const M=3.28084,E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,9),$=s=>document.querySelector(s);
+const num=x=>{const n=parseFloat(String(x).replace(',','.'));return isFinite(n)?n:NaN},val=x=>{const n=num(x);return n>=0?n:0};
+const R=n=>'रु '+Math.round(isFinite(n)?n:0).toLocaleString('en-IN'),f1=n=>(isFinite(n)?n:0).toFixed(1);
+const DR={putty:{p:80,c:15},primer:{p:450,c:100},enamel:{p:700,c:90},colour:{p:600,c:110},lab:{putty:4,sand:2,primer:2.5,finish:3.5},waste:10,cont:5,profit:15,neg:10};
+const clone=o=>JSON.parse(JSON.stringify(o));
+function mg(a,b){const o={};for(const k in a){const bv=b&&b[k];o[k]=(a[k]&&typeof a[k]=='object')?mg(a[k],bv||{}):(typeof bv=='number'&&isFinite(bv)?bv:a[k])}return o}
+const T0=()=>({putty:0,sand:0,primer:0,fin:'none',coats:1,pp:'',pr:'',pf:''});
+function load(){try{const o=JSON.parse(localStorage.getItem('ae.v1'));if(o&&o.v===1&&Array.isArray(o.hist))return o}catch(e){}return{v:1,rates:DR,hist:[],draft:null,prods:[],biz:{}}}
+let store=load(),Q,armed=null,tm;store.biz=Object.assign({name:'ANUGRAHA',phone:'',addr:'',logo:''},store.biz);
+const nr=i=>({id:uid(),name:'कोठा '+i,l:'',w:'',h:'',wall:T0(),ceil:T0(),ops:[]});
+const no=()=>({id:uid(),name:'',type:'win',w:'',h:'',n:'1',t:{putty:0,sand:0,primer:0,fin:'enamel',coats:1}});
+function nq(){const iso=new Date().toISOString().slice(0,10);let n;do{n='AE-'+iso.replace(/-/g,'')+'-'+(Math.floor(Math.random()*900)+100)}while(store.hist.some(h=>h.no===n));return{id:uid(),no:n,name:'',site:'',date:iso,unit:'ft',rooms:[nr(1)],rates:mg(DR,store.rates),prods:clone(store.prods||[]),extras:[],bs:'',terms:{valid:'15',adv:'50',warr:'',note:''}}}
+function norm(q){const d=nq();q=Object.assign(d,q);q.rates=mg(DR,q.rates);q.prods=Array.isArray(q.prods)?q.prods:[];q.extras=Array.isArray(q.extras)?q.extras:[];q.terms=Object.assign({valid:'15',adv:'50',warr:'',note:''},q.terms);q.rooms=(Array.isArray(q.rooms)?q.rooms:[]).map((r,i)=>{r=Object.assign(nr(i+1),r);r.wall=Object.assign(T0(),r.wall);r.ceil=Object.assign(T0(),r.ceil);r.ops=(r.ops||[]).map(o=>{o=Object.assign(no(),o);o.t=Object.assign(T0(),o.t);return o});return r});if(!q.rooms.length)q.rooms=[nr(1)];return q}
+Q=store.draft?norm(store.draft):nq();
+// ---- calculation
+const pf=(k,id,d)=>Q.prods.find(x=>x.id===id&&x.kind===k)||d;
+function surf(a,t,r){a=isFinite(a)?a:0;const m=[];let lab=0;if(a<=0)return{a:0,m,lab:0,mc:0,cost:0};const W=1+r.waste/100;
+const add=(n,f,coats,u)=>{if(f.c>0){const q=a*coats/f.c*W;m.push({n:f.name?n+' ('+f.name+')':n,q,u,c:q*f.p})}};
+if(t.putty){add('Putty',pf('putty',t.pp,r.putty),t.putty,'kg');lab+=a*t.putty*r.lab.putty}
+if(t.sand)lab+=a*r.lab.sand;
+if(t.primer){add('Primer',pf('primer',t.pr,r.primer),t.primer,'L');lab+=a*t.primer*r.lab.primer}
+if(t.fin!=='none'&&r[t.fin]){add(t.fin=='enamel'?'Enamel':'Colour paint',pf('finish',t.pf,r[t.fin]),t.coats,'L');lab+=a*t.coats*r.lab.finish}
+const mc=m.reduce((s,x)=>s+x.c,0);return{a,m,lab,mc,cost:mc+lab}}
+function rc(rm){const k=Q.unit=='m'?M:1,l=val(rm.l)*k,w=val(rm.w)*k,h=val(rm.h)*k,r=Q.rates;
+const gross=2*(l+w)*h;let win=0,door=0;const ops=rm.ops.map(o=>{const a=val(o.w)*k*val(o.h)*k*val(o.n);o.type=='win'?win+=a:door+=a;return[o,a]});
+const net=Math.max(0,gross-win-door);
+const it=[{id:'wall',n:'भित्ता (net)',t:rm.wall,s:surf(net,rm.wall,r)},{id:'ceil',n:'छत',t:rm.ceil,s:surf(l*w,rm.ceil,r)},...ops.map(([o,a])=>({id:o.id,n:o.name||(o.type=='win'?'झ्याल':'ढोका'),t:o.t,s:surf(a,o.t,r)}))];
+return{gross,win,door,net,ceil:l*w,l,w,h,it,d:it.reduce((s,i)=>s+i.s.cost,0),ok:l>0&&w>0&&h>0}}
+function tt(){const r=Q.rates,rs=Q.rooms.map(rm=>({rm,x:rc(rm)}));let D=0,MT=0,LT=0;rs.forEach(({x})=>{D+=x.d;x.it.forEach(i=>{MT+=i.s.mc;LT+=i.s.lab})});
+const EX=Q.extras.reduce((s,e)=>s+val(e.amt),0);D+=EX;const cont=D*r.cont/100,mn=(D+cont)*(1+r.profit/100),sg=mn*(1+r.neg/100);return{rs,EX,D,MT,LT,cont,mn,sg,ng:sg-mn}}
+const ttx=t=>{const p=[];if(t.putty)p.push('Putty '+t.putty+'c');if(t.sand)p.push('Sanding');if(t.primer)p.push('Primer '+t.primer+'c');if(t.fin!='none')p.push((t.fin=='enamel'?'Enamel ':'Colour ')+t.coats+'c');return p.join(' + ')||'काम छैन'};
+// ---- paint (updates numbers only; inputs untouched)
+function paint(){const r=Q.rates,O={},H={},T=tt();
+T.rs.forEach(({rm,x})=>{const id=rm.id;
+O[id+'.gross']=f1(x.gross);O[id+'.op']=f1(x.win+x.door);O[id+'.net']=f1(x.net);O[id+'.ceil']=f1(x.ceil);
+O[id+'.tot']=R(x.d*(1+r.cont/100));O[id+'.warn']=x.ok?'':'लम्बाइ, चौडाइ र उचाइ ० भन्दा बढी भर्नुहोस्।';
+O[id+'.note']=x.win+x.door>0?`झ्याल/ढोकाको ${f1(x.win+x.door)} sq.ft भित्ताबाट घटाइएको छ र तिनको आफ्नै treatment अलग जोडिएको छ। दर फरक भए कुल घट्न वा बढ्न सक्छ।`:'';
+let rows='';x.it.forEach(i=>{const k=id+'.'+i.id;O[k+'.a']=f1(i.s.a)+' sq.ft';O[k+'.c']=R(i.s.cost);O[k+'.m']=i.s.m.map(m=>`${m.n} ${m.q.toFixed(1)}${m.u}`).join(' · ')||'material छैन';
+rows+=`<tr><td>${E(i.n)}<br><span class=mu>${f1(i.s.a)} sq.ft · ${ttx(i.t)}</span></td><td>${i.s.m.map(m=>`${E(m.n)} ${m.q.toFixed(1)}${m.u} (${R(m.c)})`).join('<br>')||'—'}</td><td class=r>${R(i.s.lab)}</td><td class=r>${R(i.s.cost)}</td></tr>`});
+H[id+'.bd']=`<div class=tw><table><tr><th>सतह</th><th>Material</th><th class=r>Labour</th><th class=r>रकम</th></tr>${rows}<tr><td colspan=3>Contingency (${r.cont}%)</td><td class=r>${R(x.d*r.cont/100)}</td></tr><tr><td colspan=3><b>कोठाको जम्मा</b></td><td class=r><b>${R(x.d*(1+r.cont/100))}</b></td></tr></table></div>`});
+Object.assign(O,{ex:R(T.EX),mat:R(T.MT),lab:R(T.LT),dir:R(T.D),cont:R(T.cont),min:R(T.mn),sug:R(T.sg),neg:R(T.ng)});
+O.rwarn=[r.putty.c,r.primer.c,r.enamel.c,r.colour.c].some(c=>!(c>0))?'Coverage ० भन्दा बढी हुनुपर्छ; नत्र त्यो material को खर्च गणना हुँदैन।':'';
+document.querySelectorAll('[data-o]').forEach(e=>e.textContent=O[e.dataset.o]??'');
+document.querySelectorAll('[data-h]').forEach(e=>{if(!e.parentElement.open&&e.dataset.lazy&&!e.innerHTML)e.innerHTML=H[e.dataset.h]||'';else if(e.parentElement.open||!e.dataset.lazy)e.innerHTML=H[e.dataset.h]||''});
+document.querySelectorAll('input[data-p]').forEach(i=>{if(i.classList.contains('t'))return;const b=i.value.trim()!==''&&!(num(i.value)>=0);i.classList.toggle('bad',b);i.setAttribute('aria-invalid',b)});
+persist()}
+function persist(){clearTimeout(tm);tm=setTimeout(()=>{store.draft=clone(Q);store.rates=clone(Q.rates);store.prods=clone(Q.prods);sv()},400)}
+function sv(){try{localStorage.setItem('ae.v1',JSON.stringify(store));return true}catch(e){return false}}
+// ---- render
+const o2=(a,v)=>a.map(([k,l])=>`<option value="${k}"${String(v)===String(k)?' selected':''}>${l}</option>`).join('');
+const sel=(p,v,a,l)=>`<label>${l}<select data-p="${p}">${o2(a,v)}</select></label>`;
+const inp=(p,v,l,c='')=>`<label>${l}<input data-p="${p}" class="${c}" inputmode="${c=='t'?'text':'decimal'}" autocomplete="off" value="${E(v)}" placeholder="${c=='t'?'':'0'}"></label>`;
+const pops=k=>[['','Default rate'],...Q.prods.filter(x=>x.kind==k).map(x=>[x.id,E(x.name)||'(नाम छैन)'])];
+const psel=(p,f,k,v,l)=>Q.prods.some(x=>x.kind==k)?sel(p+'.'+f,v||'',pops(k),l):'';
+const C=[[0,'छैन'],[1,'१ coat'],[2,'२ coat']];
+const tsel=(p,t)=>`<div class=g2>${sel(p+'.putty',t.putty,C,'Putty')}${sel(p+'.sand',t.sand,[[0,'नगर्ने'],[1,'गर्ने']],'Sanding')}${sel(p+'.primer',t.primer,C,'Primer')}${sel(p+'.fin',t.fin,[['none','छैन'],['enamel','Enamel'],['colour','Colour paint']],'Finish paint')}${t.fin!=='none'?sel(p+'.coats',t.coats,[[1,'१ coat'],[2,'२ coat']],'Finish coat'):''}</div><div class=g2>${psel(p,'pp','putty',t.pp,'Putty product')}${psel(p,'pr','primer',t.pr,'Primer product')}${psel(p,'pf','finish',t.pf,'Finish product')}</div>`;
+const scard=(id,k,title,body)=>`<div class="card s"><b>${title}</b> <span class=mu data-o="${id}.${k}.a"></span>${body}<div class=mu data-o="${id}.${k}.m"></div><div class=tot data-o="${id}.${k}.c"></div></div>`;
+function render(){const u=Q.unit=='m'?'meter':'feet';
+$('#app').innerHTML=`<div class=card><h2>नयाँ quotation</h2><div class=mu>नम्बर: ${E(Q.no)}</div>
+${inp('name',Q.name,'ग्राहकको नाम','t')}${inp('site',Q.site,'साइट / ठेगाना','t')}${inp('bs',Q.bs,'मिति (BS), जस्तै २०८३/०६/२३','t')}
+<div class=g2><label>मिति<input type=date data-p="date" class=t value="${E(Q.date)}"></label>${sel('unit',Q.unit,[['ft','Feet'],['m','Meter']],'नापको unit')}</div>
+<div class=mu>सबै रिपोर्ट sq.ft मा देखिन्छ (meter भए आफैँ convert हुन्छ)।</div></div>`+
+Q.rooms.map((rm,i)=>{const p='rooms.'+i,id=rm.id;return `<section class=card><div class=row>${inp(p+'.name',rm.name,'कोठाको नाम','t')}</div>
+<div class=g3>${inp(p+'.l',rm.l,'लम्बाइ ('+(Q.unit)+')')}${inp(p+'.w',rm.w,'चौडाइ')}${inp(p+'.h',rm.h,'उचाइ')}</div>
+<div class=err data-o="${id}.warn" role="alert"></div>
+<div class=n><div>कुल भित्ता<b data-o="${id}.gross"></b></div><div>झ्याल/ढोका<b data-o="${id}.op"></b></div><div>खुद भित्ता<b data-o="${id}.net"></b></div><div>छत<b data-o="${id}.ceil"></b></div></div>
+${scard(id,'wall','भित्ता (net wall)',tsel(p+'.wall',rm.wall))}${scard(id,'ceil','छत',tsel(p+'.ceil',rm.ceil))}
+<h3>झ्याल र ढोका</h3><div class=mu>प्रत्येक झ्याल/ढोकाको आफ्नै paint treatment र दर अलग quotation मा जोडिन्छ।</div>
+${rm.ops.map((o,j)=>{const q=p+'.ops.'+j;return `<div class="card s">${inp(q+'.name',o.name,'नाम (जस्तै: झ्याल १)','t')}<div class=g3>${sel(q+'.type',o.type,[['win','झ्याल'],['door','ढोका']],'प्रकार')}${inp(q+'.w',o.w,'चौडाइ')}${inp(q+'.h',o.h,'उचाइ')}</div><div class=g2>${inp(q+'.n',o.n,'संख्या')}<div></div></div>${tsel(q+'.t',o.t)}<span class=mu data-o="${id}.${o.id}.a"></span> <span class=mu data-o="${id}.${o.id}.m"></span><div class=tot data-o="${id}.${o.id}.c"></div><button class=d data-a="delop" data-i="${i}" data-j="${j}">हटाउनुहोस्</button></div>`}).join('')}
+<div class=row><button data-a="addop" data-i="${i}" data-t="win">+ झ्याल</button><button data-a="addop" data-i="${i}" data-t="door">+ ढोका</button></div>
+<div class=mu data-o="${id}.note"></div>
+<details><summary>कोठाको विवरण (breakdown)</summary><div data-h="${id}.bd"></div></details>
+<div class=tot>कोठाको जम्मा: <span data-o="${id}.tot"></span></div>
+<div class=row><button data-a="dup" data-i="${i}">कोठा copy</button><button class=d data-a="del" data-i="${i}">कोठा मेट्नुहोस्</button></div></section>`}).join('')+
+`<div class=row><button class=p data-a="addroom">+ नयाँ कोठा</button></div>
+<div class=card><h2>अन्य खर्च</h2><div class=mu>Crack/damp repair, ladder/scaffolding, transport जस्ता खर्च यहाँ थप्नुहोस्।</div>${Q.extras.map((e,i)=>`<div class=g2>${inp('extras.'+i+'.name',e.name,'विवरण','t')}${inp('extras.'+i+'.amt',e.amt,'रकम (रु)')}</div><button class=d data-a="delex" data-i="${i}">हटाउनुहोस्</button>`).join('')}<div class=row>${['Crack/damp repair','Ladder/scaffolding','Transport','अन्य'].map(n=>`<button data-a="addex" data-n="${n}">+ ${n}</button>`).join('')}</div></div><div class=card><h2>सर्त (quotation मा आउँछ)</h2><div class=g2>${inp('terms.valid',Q.terms.valid,'Valid (दिन)','t')}${inp('terms.adv',Q.terms.adv,'Advance %','t')}</div>${inp('terms.warr',Q.terms.warr,'Warranty (जस्तै १ वर्ष)','t')}${inp('terms.note',Q.terms.note,'अन्य note','t')}</div><div class=card><h2>जम्मा (सबै कोठा)</h2><table><tr><td>अन्य खर्च</td><td class=r data-o="ex"></td></tr><tr><td>Material</td><td class=r data-o="mat"></td></tr><tr><td>Labour</td><td class=r data-o="lab"></td></tr><tr><td>Direct cost</td><td class=r data-o="dir"></td></tr><tr><td>Contingency</td><td class=r data-o="cont"></td></tr><tr><td><b>न्यूनतम रकम</b></td><td class=r><b data-o="min"></b></td></tr><tr><td>Negotiation space</td><td class=r data-o="neg"></td></tr><tr><td><b>सुझाव गरिएको quote</b></td><td class=r><b data-o="sug"></b></td></tr></table>
+<p class=mu>यो अनुमान हो — अन्तिम मूल्य होइन। आफ्नो दर, coverage र साइटको अवस्था जाँच्नुहोस्। यो VAT bill/invoice होइन।</p>
+<div class=row><button class=p data-a="save">Save गर्नुहोस्</button><button data-a="pdf">PDF / Print</button><button data-a="wa">WhatsApp</button><button class=d data-a="new">नयाँ quotation</button></div>
+<p class=mu>Data यही browser/device मा मात्र save हुन्छ; browser data clear गरे वा device बदले हराउन सक्छ।</p></div>`;
+paint()}
+function ratesHTML(){const f=[['putty.p','Putty मूल्य (रु/kg)'],['putty.c','Putty coverage (sq.ft/kg/coat)'],['primer.p','Primer मूल्य (रु/L)'],['primer.c','Primer coverage (sq.ft/L/coat)'],['enamel.p','Enamel मूल्य (रु/L)'],['enamel.c','Enamel coverage (sq.ft/L/coat)'],['colour.p','Colour paint मूल्य (रु/L)'],['colour.c','Colour coverage (sq.ft/L/coat)'],['lab.putty','Putty labour (रु/sq.ft/coat)'],['lab.sand','Sanding labour (रु/sq.ft)'],['lab.primer','Primer labour (रु/sq.ft/coat)'],['lab.finish','Finish labour (रु/sq.ft/coat)'],['waste','Wastage %'],['cont','Contingency %'],['profit','Profit %'],['neg','Negotiation buffer %']];
+const g=(o,k)=>k.split('.').reduce((a,b)=>a[b],o);
+return `<h2>Setting</h2><h3>व्यवसाय विवरण (PDF मा आउँछ)</h3>${inp('biz.name',store.biz.name,'व्यवसायको नाम','t')}${inp('biz.phone',store.biz.phone,'फोन नम्बर','t')}${inp('biz.addr',store.biz.addr,'ठेगाना','t')}<label>Logo<input type=file accept="image/*" id=lg></label>${store.biz.logo?'<img src="'+store.biz.logo+'" alt="logo" style="height:48px">':''}<h3>दर</h3><p class=mu>यी सबै नमुना अनुमान मात्र हुन्। आफ्नो local supplier, brand र वास्तविक कामअनुसार update गर्नुहोस्। रकम नेपाली रुपैयाँमा।</p><div class=err data-o="rwarn"></div><div class=g2>${f.map(([k,l])=>inp('rates.'+k,g(Q.rates,k),l)).join('')}</div><h3>Products (brand / quality अनुसार)</h3><div class=mu>Brand अनुसार मूल्य र coverage राख्नुहोस्। कोठाको सतहमा product छान्दा त्यही दर प्रयोग हुन्छ; नछानेमा माथिको default दर।</div>${Q.prods.map((x,i)=>`<div class="card s">${inp('prods.'+i+'.name',x.name,'Brand / नाम (जस्तै Asian Royale)','t')}<div class=g3>${sel('prods.'+i+'.kind',x.kind,[['putty','Putty'],['primer','Primer'],['finish','Paint/Enamel']],'प्रकार')}${inp('prods.'+i+'.p',x.p,'मूल्य (रु/kg वा L)')}${inp('prods.'+i+'.c',x.c,'Coverage sq.ft')}</div><button class=d data-a="delp" data-i="${i}">हटाउनुहोस्</button></div>`).join('')}<div class=row><button data-a="addp">+ Product थप्नुहोस्</button></div><div class=row><button class=p data-a="close">ठीक छ</button></div>`}
+function openDl(h){const d=$('#dl');d.innerHTML=h;if(!d.open)d.showModal();paint()}
+function toast(s){const t=$('#toast');t.textContent=s;t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',3200)}
+function pvHTML(){const T=tt(),r=Q.rates;return `<div id=pr style="color:#000;background:#fff;font-family:'Noto Sans Devanagari',Mukta,system-ui,sans-serif"><div style="display:flex;align-items:center;gap:10px">${store.biz.logo?`<img src="${store.biz.logo}" style="height:56px" alt="">`:''}<div><h2 style="margin:0;color:#0a4d46">${E(store.biz.name)||'ANUGRAHA'} estimate</h2><div style="font-size:13px">${E(store.biz.phone)} ${E(store.biz.addr)}</div></div></div><p style="margin:2px 0">Quotation नं: ${E(Q.no)} · मिति: ${E(Q.date)}${Q.bs?' (BS '+E(Q.bs)+')':''}</p><p style="margin:2px 0">ग्राहक: ${E(Q.name)||'—'} · साइट: ${E(Q.site)||'—'}</p><p style="margin:2px 0">नापको unit: ${Q.unit=='m'?'Meter':'Feet'} (रिपोर्ट sq.ft मा)</p>
+${T.rs.map(({rm,x})=>`<h3 style="margin:12px 0 2px">${E(rm.name)} — ${E(rm.l)}×${E(rm.w)}×${E(rm.h)} ${Q.unit}</h3><div style="font-size:14px">कुल भित्ता ${f1(x.gross)} · झ्याल/ढोका ${f1(x.win+x.door)} · खुद भित्ता ${f1(x.net)} · छत ${f1(x.ceil)} sq.ft</div><table style="font-size:13px"><tr><th>सतह / काम</th><th>Material</th><th class=r>Labour</th><th class=r>रकम</th></tr>${x.it.map(i=>`<tr><td>${E(i.n)} ${f1(i.s.a)} sq.ft<br>${ttx(i.t)}</td><td>${i.s.m.map(m=>`${E(m.n)} ${m.q.toFixed(1)}${m.u} (${R(m.c)})`).join('<br>')||'—'}</td><td class=r>${R(i.s.lab)}</td><td class=r>${R(i.s.cost)}</td></tr>`).join('')}<tr><td colspan=3>Contingency ${r.cont}%</td><td class=r>${R(x.d*r.cont/100)}</td></tr><tr><td colspan=3><b>कोठाको जम्मा</b></td><td class=r><b>${R(x.d*(1+r.cont/100))}</b></td></tr></table>`).join('')}
+<h3>सारांश</h3><table style="font-size:14px">${Q.extras.map(e=>`<tr><td>${E(e.name)||'अन्य खर्च'}</td><td class=r>${R(val(e.amt))}</td></tr>`).join('')}<tr><td>Material</td><td class=r>${R(T.MT)}</td></tr><tr><td>Labour</td><td class=r>${R(T.LT)}</td></tr><tr><td>Contingency</td><td class=r>${R(T.cont)}</td></tr><tr><td>न्यूनतम रकम</td><td class=r>${R(T.mn)}</td></tr><tr><td>Negotiation allowance</td><td class=r>${R(T.ng)}</td></tr><tr><td><b>सुझाव गरिएको quote</b></td><td class=r><b>${R(T.sg)}</b></td></tr></table>
+<p style="font-size:13px">Valid: ${E(Q.terms.valid)} दिन · Advance: ${E(Q.terms.adv)}%${Q.terms.warr?' · Warranty: '+E(Q.terms.warr):''}${Q.terms.note?'<br>'+E(Q.terms.note):''}</p><p style="font-size:12px">नमुना अनुमान दरमा आधारित अनुमान हो। यो अन्तिम मूल्य वा VAT invoice होइन।</p></div>`}
+function waText(){const T=tt(),b=store.biz;return `*${b.name||'ANUGRAHA'} estimate*\nQuotation: ${Q.no}\nग्राहक: ${Q.name||'-'}\nसाइट: ${Q.site||'-'}\n\n`+T.rs.map(({rm,x})=>`• ${rm.name}: ${R(x.d*(1+Q.rates.cont/100))}`).join('\n')+(T.EX?`\n• अन्य खर्च: ${R(T.EX)}`:'')+`\n\n*जम्मा (सुझाव): ${R(T.sg)}*\nValid: ${Q.terms.valid} दिन · Advance ${Q.terms.adv}%\n${b.phone?'फोन: '+b.phone+'\n':''}(अनुमान, VAT invoice होइन)`}
+function tap(k,fn,msg){if(armed===k){armed=null;fn()}else{armed=k;toast(msg||'पक्का हो? फेरि थिच्नुहोस्');setTimeout(()=>{if(armed===k)armed=null},3000)}}
+// ---- events
+function setp(p,v){const a=p.split('.');let o=a[0]=='biz'?store:Q;for(let i=0;i<a.length-1;i++)o=o[a[i]];o[a[a.length-1]]=v}
+function onIn(e){const t=e.target,p=t.dataset&&t.dataset.p;if(!p)return;let v=t.value;
+if(t.tagName=='SELECT'){if(!/(^|\.)(fin|type|unit|kind|pp|pr|pf)$/.test(p))v=Number(v)}else if(p.startsWith('rates.')||/^(prods\.\d+\.[pc]|extras\.\d+\.amt)$/.test(p))v=val(v);
+setp(p,v);if(/\.fin$/.test(p)&&e.type=='change'){render();return}if(p=='unit'&&e.type=='change'){render();return}paint()}
+document.addEventListener('input',onIn);document.addEventListener('change',onIn);
+document.addEventListener('focusin',e=>{const t=e.target;if(t.tagName=='INPUT'&&t.inputMode=='decimal')setTimeout(()=>t.select(),0)});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,i=+b.dataset.i,j=+b.dataset.j;
+if(a=='addroom'){Q.rooms.push(nr(Q.rooms.length+1));render()}
+else if(a=='dup'){const c=clone(Q.rooms[i]);c.id=uid();c.name+=' (copy)';c.ops.forEach(o=>o.id=uid());Q.rooms.splice(i+1,0,c);render()}
+else if(a=='del'){if(Q.rooms.length<2)return toast('कम्तीमा एउटा कोठा चाहिन्छ');tap('r'+i,()=>{Q.rooms.splice(i,1);render()},'कोठा मेट्न फेरि थिच्नुहोस्')}
+else if(a=='addop'){const o=no();o.type=b.dataset.t;o.name=(o.type=='win'?'झ्याल ':'ढोका ')+(Q.rooms[i].ops.filter(x=>x.type==o.type).length+1);Q.rooms[i].ops.push(o);render()}
+else if(a=='delop'){Q.rooms[i].ops.splice(j,1);render()}
+else if(a=='save'){const s=clone(Q);s.savedAt=new Date().toISOString();const k=store.hist.findIndex(h=>h.id==s.id);k>=0?store.hist[k]=s:store.hist.unshift(s);store.draft=clone(Q);toast(sv()?'यो device मा save भयो':'Save गर्न सकिएन — browser storage बन्द छ')}
+else if(a=='new'){tap('new',()=>{Q=nq();render();scrollTo(0,0);toast('नयाँ quotation सुरु भयो (पुरानो save भएको सुरक्षित छ)')},'नयाँ बनाउन फेरि थिच्नुहोस्')}
+else if(a=='rates')openDl(ratesHTML());
+else if(a=='close')$('#dl').close();
+else if(a=='hist'){openDl(`<h2>Saved quotation</h2>${store.hist.length?store.hist.map(h=>`<div class="card s"><b>${E(h.no)}</b> · ${E(h.name)||'—'}<div class=mu>${E(h.site)} ${E(h.date)}</div><div class=row><button class=p data-a="open" data-id="${E(h.id)}">खोल्नुहोस्</button><button class=d data-a="delh" data-id="${E(h.id)}">मेट्नुहोस्</button></div></div>`).join(''):'<p class=mu>अहिलेसम्म केही save गरिएको छैन। Quotation बनाएर "Save गर्नुहोस्" थिच्नुहोस्।</p>'}<div class=row><button data-a="close">बन्द</button></div>`)}
+else if(a=='open'){const h=store.hist.find(x=>x.id==b.dataset.id);if(h){Q=norm(clone(h));$('#dl').close();render();scrollTo(0,0);toast('Save गर्दाको दरसहित खुल्यो')}}
+else if(a=='delh'){tap('h'+b.dataset.id,()=>{store.hist=store.hist.filter(x=>x.id!=b.dataset.id);sv();b.click&&document.querySelector('[data-a=hist]').click()},'मेट्न फेरि थिच्नुहोस्')}
+else if(a=='pdf'){openDl(`<div class="row np"><button class=p data-a="print">Print / Save as PDF</button><button data-a="close">बन्द</button></div><p class="mu np">Print नखुले browser menu बाट Print / Share → Save as PDF प्रयोग गर्नुहोस्, वा यो page नयाँ tab मा खोल्नुहोस्।</p>${pvHTML()}`)}
+else if(a=='print'){try{window.print()}catch(err){toast('Print खुलेन — browser menu बाट Save as PDF प्रयोग गर्नुहोस्')}}
+else if(a=='addp'){Q.prods.push({id:uid(),kind:'finish',name:'',p:0,c:100});openDl(ratesHTML())}
+else if(a=='delp'){Q.prods.splice(i,1);openDl(ratesHTML())}
+else if(a=='addex'){Q.extras.push({id:uid(),name:b.dataset.n=='अन्य'?'':b.dataset.n,amt:''});render()}
+else if(a=='delex'){Q.extras.splice(i,1);render()}
+else if(a=='wa'){const tx=waText();let w=null;try{w=window.open('https://wa.me/?text='+encodeURIComponent(tx),'_blank')}catch(err){}if(!w){try{navigator.clipboard.writeText(tx);toast('Text copy भयो — WhatsApp मा paste गर्नुहोस्')}catch(err){toast('Share खुलेन')}}}
+});
+document.addEventListener('change',e=>{if(e.target.id!=='lg'||!e.target.files[0])return;const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,240/im.width),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);store.biz.logo=c.toDataURL('image/png');sv();openDl(ratesHTML());toast('Logo save भयो')};im.src=fr.result};fr.readAsDataURL(e.target.files[0])});
+$('#dl').addEventListener('close',()=>render());
+render();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script></body></html>
